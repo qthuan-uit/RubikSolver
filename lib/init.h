@@ -1,4 +1,6 @@
 #pragma once
 #include <raylib.h>
 
-void update();
+void init();
+
+void initWorld();

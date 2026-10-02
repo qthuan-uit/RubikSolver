@@ -1,3 +1,2 @@
-#include "cube.h"
+#include "lib/cube.h"
 #include <raylib.h>
-

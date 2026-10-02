@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <raylib.h>
+#include <cmath>
 
 namespace Data {
     constexpr uint16_t WIDTH = 1200;
