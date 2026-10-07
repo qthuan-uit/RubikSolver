@@ -1,5 +1,6 @@
 #include "lib/camera.h"
 #include "lib/utils.h"
+#include <raymath.h>
 
 CameraWorld::CameraWorld(float phi, float theta, float orgDist, Vector3 position)
 {
@@ -29,10 +30,15 @@ void CameraWorld::update() {
 }
 
 void CameraWorld::rotate(float deltaPhi, float deltaTheta) {
-    this->phi += deltaPhi;
-    this->theta += deltaTheta;
+    this->phi += deltaPhi*this->rotateSpeed;
+    this->theta += deltaTheta*this->rotateSpeed;
+    this->theta = Clamp(this->theta, 0.01f, 180 - 0.01f);
 }
 
 void CameraWorld::zoom(float deltaDist) {
-    this->orgDist += deltaDist;
+    this->orgDist += deltaDist*this->zoomSpeed;
+}
+
+Camera3D CameraWorld::getCamera() {
+    return this->camera;
 }

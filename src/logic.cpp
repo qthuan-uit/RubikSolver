@@ -2,24 +2,25 @@
 #include "lib/data.h"
 #include "lib/camera.h"
 
-void update(CameraWorld* cam) {
+void update(CameraWorld* cam, std::vector<Cubie*> cubies) {
     while (!WindowShouldClose())
     {
-        handleKey(cam);
+        handleKey(cam, cubies);
         cam->update();
-        render(cam);
+        for (auto& cubie : cubies) cubie->update();
+        render(cam, cubies);
     }
     CloseWindow();
 }
 
-void handleKey(CameraWorld* cam) {
+void handleKey(CameraWorld* cam, std::vector<Cubie*> cubies) {
     if ((IsKeyDown(KEY_LEFT)) || (IsKeyDown(KEY_RIGHT))) {
-        int dir = IsKeyDown(KEY_LEFT) - IsKeyDown(KEY_RIGHT);
-        cam->rotate(dir * cam->rotateSpeed, 0);
+        int dir = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
+        cam->rotate(dir, 0);
     }
     if ((IsKeyDown(KEY_DOWN)) || (IsKeyDown(KEY_UP))) {
-        int dir = IsKeyDown(KEY_DOWN) - IsKeyDown(KEY_UP);
-        cam->rotate(0, dir * cam->rotateSpeed);
+        int dir = IsKeyDown(KEY_UP) - IsKeyDown(KEY_DOWN);
+        cam->rotate(0, dir);
     }
     if (GetMouseWheelMove()) {
         int dir = -GetMouseWheelMove();
@@ -27,16 +28,21 @@ void handleKey(CameraWorld* cam) {
     }
 }
 
-void render(CameraWorld* cam) {
+void render(CameraWorld* cam, std::vector<Cubie*> cubies) {
 BeginDrawing();
     ClearBackground(Data::BGCOLOR);
-    BeginMode3D(cam->camera);
+    BeginMode3D(cam->getCamera());
+    rlDisableBackfaceCulling();
 
-    DrawSphere({0, 0, 0}, .3f, BLACK);
     DrawCube({5, 0, 0}, 10, .1f, .1f, RED);
     DrawCube({0, 5, 0}, .1f, 10, .1f, BLUE);
     DrawCube({0, 0, 5}, .1f, .1f, 10, GREEN);
 
+    for (auto& cubie : cubies) {
+        cubie->draw();
+    }
+
+    rlEnableBackfaceCulling();
     EndMode3D();
     EndDrawing();
 }

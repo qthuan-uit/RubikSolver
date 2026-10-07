@@ -3,11 +3,12 @@
 #include <raylib.h>
 
 class CameraWorld {
-public:
+private:
     float theta;
     float phi;
     float orgDist;
     float rotateSpeed = 4.f;
+    float zoomSpeed = 4.f;
     Vector3 position;
     Camera3D camera;
 public:
@@ -15,4 +16,5 @@ public:
     void update();
     void rotate(float, float);
     void zoom(float);
+    Camera3D getCamera();
 };
