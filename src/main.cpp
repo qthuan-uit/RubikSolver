@@ -5,6 +5,7 @@
 #include "lib/init.h"
 #include "lib/logic.h"
 #include "lib/camera.h"
+#include "lib/cube.h"
 
 CameraWorld* camera = new CameraWorld(45.f, 45.f, 10.f, {10, 10, 10});
 
@@ -31,16 +32,18 @@ std::vector<Cubie*> cubies = {
     new Cubie({1, -1, 0}, CubieType::SIDE),
     new Cubie({-1, 1, 0}, CubieType::SIDE),
 
-    new Cubie({{1, 1, 1}, CubieType::CORNER}),
-    new Cubie({{-1, -1, 1}, CubieType::CORNER}),
-    new Cubie({{1, -1, 1}, CubieType::CORNER}),
-    new Cubie({{-1, 1, 1}, CubieType::CORNER}),
+    new Cubie({1, 1, 1}, CubieType::CORNER),
+    new Cubie({-1, -1, 1}, CubieType::CORNER),
+    new Cubie({1, -1, 1}, CubieType::CORNER),
+    new Cubie({-1, 1, 1}, CubieType::CORNER),
 
-    new Cubie({{1, 1, -1}, CubieType::CORNER}),
-    new Cubie({{-1, -1, -1}, CubieType::CORNER}),
-    new Cubie({{1, -1, -1}, CubieType::CORNER}),
-    new Cubie({{-1, 1, -1}, CubieType::CORNER}),
+    new Cubie({1, 1, -1}, CubieType::CORNER),
+    new Cubie({-1, -1, -1}, CubieType::CORNER),
+    new Cubie({1, -1, -1}, CubieType::CORNER),
+    new Cubie({-1, 1, -1}, CubieType::CORNER),
 };
+
+Cube* cube = new Cube(cubies);
 
 // {R/O , B/G , W/Y}
 
@@ -48,5 +51,5 @@ std::vector<Cubie*> cubies = {
 int main() 
 {
     init();
-    update(camera, cubies); 
+    update(camera, cube); 
 }

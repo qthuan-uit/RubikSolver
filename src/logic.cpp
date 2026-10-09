@@ -1,19 +1,21 @@
 #include "lib/logic.h"
 #include "lib/data.h"
 #include "lib/camera.h"
+#include "lib/cube.h"
+Cubie* cubieDummy = new Cubie({1, 1, 1}, CubieType::CENTER);
 
-void update(CameraWorld* cam, std::vector<Cubie*> cubies) {
+void update(CameraWorld* cam, Cube* cube) {
     while (!WindowShouldClose())
     {
-        handleKey(cam, cubies);
+        handleKey(cam, cube);
         cam->update();
-        for (auto& cubie : cubies) cubie->update();
-        render(cam, cubies);
+        cube->update();
+        render(cam, cube);
     }
     CloseWindow();
 }
 
-void handleKey(CameraWorld* cam, std::vector<Cubie*> cubies) {
+void handleKey(CameraWorld* cam, Cube* cube) {
     if ((IsKeyDown(KEY_LEFT)) || (IsKeyDown(KEY_RIGHT))) {
         int dir = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
         cam->rotate(dir, 0);
@@ -26,9 +28,15 @@ void handleKey(CameraWorld* cam, std::vector<Cubie*> cubies) {
         int dir = -GetMouseWheelMove();
         cam->zoom(dir);
     }
+    for (const auto key : notationKeys) {
+        if (IsKeyPressed(key)) {
+            auto notation = notationKeyTranslation.at(static_cast<int>(key) + IsKeyDown(KEY_LEFT_SHIFT)*100);
+            cube->handleNotation(notation);
+        }
+    }
 }
 
-void render(CameraWorld* cam, std::vector<Cubie*> cubies) {
+void render(CameraWorld* cam, Cube* cube) {
 BeginDrawing();
     ClearBackground(Data::BGCOLOR);
     BeginMode3D(cam->getCamera());
@@ -38,9 +46,7 @@ BeginDrawing();
     DrawCube({0, 5, 0}, .1f, 10, .1f, BLUE);
     DrawCube({0, 0, 5}, .1f, .1f, 10, GREEN);
 
-    for (auto& cubie : cubies) {
-        cubie->draw();
-    }
+    cube->draw();
 
     rlEnableBackfaceCulling();
     EndMode3D();

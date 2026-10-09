@@ -7,8 +7,8 @@ private:
     float theta;
     float phi;
     float orgDist;
-    float rotateSpeed = 4.f;
-    float zoomSpeed = 4.f;
+    float rotateSpeed = 2.f;
+    float zoomSpeed = 1.f;
     Vector3 position;
     Camera3D camera;
 public:

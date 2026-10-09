@@ -1,16 +1,8 @@
 #pragma once
-#include <iostream>
 #include <cmath>
+#include <raylib.h>
+#include <raymath.h>
 
-template <typename T>
-void log(T content);
+float roundTo(float, int);
 
-float toRad(float deg);
-
-float toDeg(float rad);
-
-float sinDeg(float deg);
-
-float cosDeg(float deg);
-
-float tanDeg(float deg);
+Vector3 transformRotation(Vector3, float, Vector3, bool);
